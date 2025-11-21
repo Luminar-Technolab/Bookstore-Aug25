@@ -3,7 +3,7 @@ import React from 'react'
 function Preloader() {
   return (
     <div className='flex justify-center items-center w-full h-screen'>
-      <img width={'500px'} src="https://i.pinimg.com/originals/5b/f0/a3/5bf0a3e0601d35349c5451fa52138ea6.gif" alt="books preloader" />
+      <img width={'500px'} src="https://i.pinimg.com/originals/e1/59/25/e15925c931a81678a3c2e0c0a40db781.gif" alt="books preloader" />
     </div>
   )
 }

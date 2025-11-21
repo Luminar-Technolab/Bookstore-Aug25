@@ -1,8 +1,89 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Header from '../components/Header'
+import Footer from '../../components/Footer'
+import { FaBars } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 function Books() {
+  const [toggle,setToggle] = useState(false)
   return (
-    <div>Books</div>
+    <>
+    <Header/>
+    <>
+      <div className='flex flex-col justify-center items-center my-5'>
+        <h1 className="text-3xl font-bold my-5">All Books</h1>
+        <div className="flex my-5">
+          <input placeholder='Seach By Book Title' type="text" className="p-2 border border-gray-200 text-black w-100 placeholder-gray-600" />
+          <button className="p-2 bg-blue-900 text-white ">Search</button>
+        </div>
+      </div>
+      {/* books card & filter */}
+      <div className="md:grid grid-cols-4 p-5 md:px-20 mb-10">
+        {/* filter */}
+        <div className="col-span-1">
+          <div className='flex justify-between'>
+            <h1 className="font-bold text-2xl">Filter</h1>
+            <button onClick={()=>setToggle(!toggle)} className="font-bold text-2xl md:hidden"><FaBars/></button>
+          </div>
+         {/* list of filter */}
+         <div className={toggle?"block":"md:block hidden"}>
+            {/* duplicate filter item */}
+            <div className="mt-3">
+              <input type="radio" name="filter" id="key1" />
+              <label className='ms-3' htmlFor="key1">category-name</label>
+            </div>
+            <div className="mt-3">
+              <input type="radio" name="filter" id="nofilter" />
+              <label className='ms-3' htmlFor="nofilter">No Filter</label>
+            </div>
+         </div>
+
+        </div>
+        {/* books card */}
+        <div className="col-span-3">
+            <div className="md:grid grid-cols-4 mt-5 md:mt-0">
+              {/* duplicate book  */}
+              <div className="shadow rounded p-3 m-4  md:my-0">
+                <img width={'100%'} height={'300px'} src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1654371463i/18144590.jpg" alt="book" />
+                <div className="flex flex-col justify-center items-center mt-4">
+                  <h3 className="text-blue-700 font-bold text-xl">Author</h3>
+                  <p>title</p>
+                  <Link to={`/books/id/view`} className='bg-blue-800 p-2 text-white mt-2'>View Book</Link>
+                </div>
+              </div>
+               {/* duplicate book  */}
+              <div className="shadow rounded p-3 m-4  md:my-0">
+                <img width={'100%'} height={'300px'} src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1654371463i/18144590.jpg" alt="book" />
+                <div className="flex flex-col justify-center items-center mt-4">
+                  <h3 className="text-blue-700 font-bold text-xl">Author</h3>
+                  <p>title</p>
+                  <Link to={`/books/id/view`} className='bg-blue-800 p-2 text-white mt-2'>View Book</Link>
+                </div>
+              </div>
+               {/* duplicate book  */}
+              <div className="shadow rounded p-3 m-4  md:my-0">
+                <img width={'100%'} height={'300px'} src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1654371463i/18144590.jpg" alt="book" />
+                <div className="flex flex-col justify-center items-center mt-4">
+                  <h3 className="text-blue-700 font-bold text-xl">Author</h3>
+                  <p>title</p>
+                  <Link to={`/books/id/view`} className='bg-blue-800 p-2 text-white mt-2'>View Book</Link>
+                </div>
+              </div>
+               {/* duplicate book  */}
+              <div className="shadow rounded p-3 m-4  md:my-0">
+                <img width={'100%'} height={'300px'} src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1654371463i/18144590.jpg" alt="book" />
+                <div className="flex flex-col justify-center items-center mt-4">
+                  <h3 className="text-blue-700 font-bold text-xl">Author</h3>
+                  <p>title</p>
+                  <Link to={`/books/id/view`} className='bg-blue-800 p-2 text-white mt-2'>View Book</Link>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </>
+    <Footer/>
+    </>
   )
 }
 
