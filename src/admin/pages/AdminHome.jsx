@@ -117,7 +117,7 @@ const data02 = [
         <div className="md:grid grid-cols-2 px-5 ">
           <div >
             {/* bar chart */}
-            <ResponsiveContainer width={"450"} height={'300'}>
+            <ResponsiveContainer width={"100%"} height={'300'}>
                 <BarChart  data={data}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
@@ -131,7 +131,7 @@ const data02 = [
           </div>
           <div>
             {/* pie chart */}
-            <ResponsiveContainer width={"450"} height={'300'}>
+            <ResponsiveContainer width={"100%"} height={'300'}>
                 <PieChart>
                   <Pie
                     data={data01}
