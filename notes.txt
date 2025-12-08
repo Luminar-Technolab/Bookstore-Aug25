@@ -553,7 +553,6 @@
                     BACKEND TECHNOLOGIES
             ----------------------------------------------
 
-            ----------------------------------------------
                             DATABASE
             ----------------------------------------------
 
@@ -605,8 +604,304 @@
         | **Collection** | Similar to a table (but schema-flexible) |
         | **Document**   | Similar to a row (stored as JSON/BSON)   |
         | **Field**      | Key-value pair (like a column)           |
-    4. CRUD Operations in MongoDB
+    5. _id : used to uniquely identify documents in a collections, it automatically generated when user add new document, created using ObjectId
+    6. Basic / CRUD Operations in MongoDB
+        - Create / Insert Data 
+            - insertOne({key:value}) : used to insert a single document in a collection
+            - insertMany([{key:value},...]) : used to insert multiple documents in a collection
+        - Read / Get Data
+            - find() : used to get all documents from a collection
+            - find(query) : used to get all documents which satisfy the query
+            - findOne(query) : used to get single document from a collection
+            - findById({_id:value}) : used to get a single document from a collection
+        - Update data
+            - upadateOne() : used to update a single document from a collection
+            - updateMany() : used to update all documents from a collection based on a condition.
+        - Delete data
+            - deleteOne() : used to remove a single document from a collection
+            - deleteMany() : used to remove all documents from a collection based on a condition.
+        - sort()
+        - limit()
+    7. MongoDB Query Operators : 
+        - Comparison :  { field: { comparison-query: value }}
+            - $eq: Values are equal
+            - $ne: Values are not equal
+            - $gt: Value is greater than another value
+            - $gte: Value is greater than or equal to another value
+            - $lt: Value is less than another value
+            - $lte: Value is less than or equal to another value
+            - $in: Value is matched within an array
+        - Logical : {   logical-query: [     { field1: value1 },     { field2: value2 }   ]}
+            - $and: Returns documents where both queries match
+            - $or: Returns documents where either query matches
+            - $nor: Returns documents where both queries fail to match
+            - $not: Returns documents where the query does not match
+        - Evaluation : { fieldname : {Evaluation-query:value }}
+            - $regex: Allows the use of regular expressions when evaluating field values
+            - $text: Performs a text search
+            - $where: Uses a JavaScript expression to match documents
+        - Elements
+            - $exists
+    8. MongoDB Update Operators
+        - Fields
+            - $currentDate: Sets the field value to the current date
+            - $inc: Increments the field value
+            - $rename: Renames the field
+            - $set: Sets the value of a field
+            - $unset: Removes the field from the document
+        - Array
+            - $addToSet: Adds distinct elements to an array
+            - $pop: Removes the first or last element of an array
+            - $pull: Removes all elements from an array that match the query
+            - $push: Adds an element to an array
+    9. Indexing : helps improve the performance of queries by allowing the database to quickly locate data without scanning the entire collection.
+        - To create indexing :  db.collection.createIndex({ fieldName: 1 })   // 1 = Ascending , -1 = Descending
+        - Use indexing on fields used in:
+            - find() filters
+            - sort()
+            - lookup()
+            - Unique fields (ex: email, phone)
+            - Frequently accessed fields
+    10. Aggregation : used to process and transform data inside the database, It operations allow you to group, sort, perform calculations, analyze data, and much more.
+        - Syntax of Aggregation : db.collection.aggregate([   { stage1 },   { stage2 },  { stage3 }])
+        - $match : used to filter documents
+        - $group : 
+        - $limit :
+        - $sort : 
+        - $lookup : used to join 2 diffrenet collection in db
+            - {
+                $lookup: {
+                    from: "TargetCollection",
+                    localField: "fieldInCurrentCollection",
+                    foreignField: "fieldInTargetCollection",
+                    as: "outputField"
+                }
+                }
 
+                            MONGODB ATLAS
+            ----------------------------------------------
+    1. MongoDB Atlas is a cloud database service where you can store and access MongoDB online instead of running it locally.
+    2. Create an account in MongoDB Atlas
+    3. To create database : Clusters --- > Create database ---> add collection
+    4. Add / update User & Network Access
+    5. To connect database with node js app : 
+        Clusters ---> Connect ---> Connect with APP (Drivers) ---> Copy connection string
+        ex: mongodb+srv://username:yourpassword@cluster0.mongodb.net/myNewDatabase?appName=Cluster0
+
+
+
+                            BACKEND
+            ----------------------------------------------
+
+
+    1. A backend server in a web application is the hidden part of the app that runs on a server and handles things like:
+
+            ✔ Business logic
+            ✔ Database operations
+            ✔ Authentication & authorization (login/register)
+            ✔ Security
+            ✔ File handling (upload/download)
+            ✔ API responses (data for frontend apps)
+    2. How It Works (Simple Flow)
+        User Request → Frontend (Browser) → Backend Server → Database
+           ↓                                           ↑
+        Response ← API (JSON/XML) ← Backend Logic ← Stored Data
+    3. Key Responsibilities of a Backend Server
+
+        | Function             | Explanation                                                       |
+        | -------------------- | ----------------------------------------------------------------- |
+        | **Request Handling** | Receives and processes API calls from frontend.                   |
+        | **Data Storage**     | Connects to a database (SQL/NoSQL) to get/save data.              |
+        | **Business Logic**   | Applies rules (e.g., price calculation, permissions, validation). |
+        | **Authentication**   | Login, JWT tokens, session handling.                              |
+        | **Security**         | Prevents attacks (SQL injection, CSRF, XSS).                      |
+        | **File Management**  | Stores images, PDFs, documents.                                   |
+        | **Integration**      | Connects with payment gateways, email services, etc.              |
+    4. Backend Technology Stack Examples
+        | Layer              | Options                                           |
+        | ------------------ | ------------------------------------------------- |
+        | **Languages**      | Node.js, Python, Java, PHP, C#, Go                |
+        | **Frameworks**     | Express.js, Django, Spring Boot, Laravel, ASP.NET |
+        | **Databases**      | MongoDB, MySQL, PostgreSQL, Firebase, Redis       |
+        | **Authentication** | JWT, OAuth2, Passport.js, Firebase Auth           |
+        | **Hosting**        | AWS, Azure, Google Cloud, Vercel, Render, Heroku  |
+    5. A backend server is the engine of a web application that powers all the logic, data processing, and secure communication behind the scenes. Without it, the frontend would only display static content—no login, no database, no transactions.
+
+
+                Node.js
+            -----------------
+
+    1. Node.js is a JavaScript runtime environment that allows you to run JavaScript outside the browser — mainly on the backend.
+    2. It uses the V8 engine (the same engine Chrome uses), making it fast, scalable, and efficient.
+        - JIT (Just In Time ) compiler : It convert js code into machine code without interpret
+    3. Why Node.js?
+        - Fast performance (non-blocking & asynchronous)
+        - Uses JavaScript for both frontend and backend
+        - Huge npm ecosystem (millions of packages)
+        - Ideal for real-time apps (chat apps, notifications, games)
+    4. How Node.js Works
+        - Node.js uses an event-driven, single-threaded model, but handles multiple operations concurrently using:
+            - Event Loop
+            - Asynchronous (non-blocking) I/O
+    5. Node.js Architecture (Simple)
+        Client → Node.js Server → Event Loop → Async Call → Callback → Response
+    6. Node.js Modules 
+        - In node it uses CommonJS modules, so to import data from a js file it has to use 'require("package-name/ file-path")' method, to export data by default use 'module.exports' otherwise 'exports'
+        - In Built Modules
+            - fs → File system
+            - http → Create servers
+            - path → File paths
+            - os → System info
+            - events → Event emitter
+    7. Error handling in node
+        - Error First callbacks : call back first argument as error , so it can prevent unexpected failure
+        - using try..catch with async-await
+        - using 'UnCaughtExceptions' uses global error handling, where errors will be resolve using this package
+    8. Global objects in Node js
+        - Node.js, global is an object that acts like the global scope, Anything added to the global object becomes available everywhere in the application without importing it.
+        - What is global in Node.js
+            - It provides globally accessible variables and functions.
+            - All Node files have access to it.
+            - Avoid using it too much because it can cause conflicts and debugging issues.
+        - process : Info about runtime (CPU, memory, env variables)
+        - Environment variable : used to hold secret / configurational data of project, it stores in .env file 
+    9. CORS (Cross Origin Resource Shairing ) : Node.js is a security mechanism that allows or restricts web applications running on one domain to interact with a server from another domain.
+        - Why do we need CORS?
+            - Browsers block requests from a different origin by default for security.
+
+
+
+            Express js
+        ------------------
+
+    1. Express.js is a fast, minimal, flexible web framework for Node.js used to build APIs and web applications.
+    2. Express.js is a backend framework for Node.js used to:
+        - Build APIs
+        - Create servers
+        - Serve frontend files (HTML, CSS, JS)
+        - Handle HTTP requests (GET, POST, PUT, DELETE)
+    3. Steps to create Express server for handling HTTP request
+        - create a folder
+        - Create package.json / project configuration file, use command: npm init -y
+        - Update package.json 'scripts' part by adding "start":"node index.js"
+        - create .env file
+        - install necessary packages for server creation : install express,cors,dotenv,mongoose, jsonwebtoken
+        use command : npm i express cors dotenv
+        - create .gitignore file and add file & folders tobe avoided while adding to git
+        - create index.js file for express server creation, steps to create server
+            - import express,cors,dotenv into index.js file
+            - create express server using express
+            - enable cors in server
+            - use json parser in server app
+            - create a port for server app to view in web
+            - server start to listen port for client request
+            - resolve http get request to server app : server-app.httpRequest(url,request callback function)
+        - Add database connection string to .env file
+        - Create a config folder for database connection
+            - create a js file for Defining connection between node & mongodb using mongoose
+                - import mongoose
+                - get database connection string from procee.env
+                - using mongoose.connect method connect app with db
+        - import db.js file into index.js file
+        - create model for in server folder
+            - create js file for each collection in your mongodb
+                - import mongoose
+                - create object for Schema class of mongoose
+                - create model for schema and export model
+        - create controller folder
+            - create a js file for defining logic for solving request 
+                - import model 
+                - export each logic function from it
+        - create routes folder for defining url for client api request
+            - import express
+            - using express Router class object define each url
+            - export router object
+        - import router inside index.js
+        - use router in server app : syntax - server-app.use(router)
+    4. Express.js MVC architecture step by step.
+        - What is MVC?
+            | Layer          | Role                                              |
+            | -------------- | ------------------------------------------------- |
+            | **Model**      | Handles database and data logic                   |
+            | **View**       | Frontend (HTML, EJS, etc.) — optional in REST API |
+            | **Controller** | Handles request and sends response                |
+        - In Express APIs we mainly use: Model + Controller + Routes
+        - MCV Express API Working
+            client request ---> Routes ----> Controller <----> Model
+                                                  |   
+                               Client  <------ Response
+        - Files & Folder Structure of Express Server MVC Model
+            - config folder : used to define connection between server & database
+            - routes folder : used to define url for client request
+            - controller folder : used to define logic for resolving client request
+            - model folder : used to communicate between server & database
+            - node_modules folder : used to hold offline package for project
+            - index.js file : entry point
+            - .gitignore
+            - .env
+
+
+
+                Mongoose
+        -----------------------------
+
+    1. Mongoose is an ODM (Object Data Modeling) library for MongoDB and Node.js.
+    2. It helps you:
+        ✔ Connect to MongoDB
+        ✔ Define schemas
+        ✔ Validate data
+        ✔ Perform CRUD operations easily
+    3. install mongoose : npm install mongoose
+    4. To connect node app with MongoDB : use 'connect' method of mongoose
+    5. Schema : A Schema defines the structure of documents in a MongoDB collection.
+        - It tells MongoDB:
+            - What fields a document will have
+            - What data type (String,Number,Boolean,Date,Array,Object,Buffer,Mixed (any type),ObjectId (for relationships)) each field 
+            - Whether a field is required or optional
+            - Validation rules (min/max length, enum, default value, etc.)
+        - Create schema : use mongoose Schema class 
+        - Convert Schema to Model : Model is a constructor function created from a Schema.
+            ➡️ Schema = structure/blueprint
+            ➡️ Model = object that interacts with the database
+        - To create model : use 'model' method in mongoose
+            syntax : mongoose.model("model-name",schema-name)
+        - Using a Model, you can:
+                ✔ Create new documents : model-name.create({follow schema order}) / create object for model, using save method of mongoose save the document in mongodb
+                ✔ Insert data into MongoDB
+                ✔ Query data : find(), findOne() , findById()
+                ✔ Update data : updateOne(), findByIdAndUpdate({_id},{updateed query},{new:true})
+                ✔ Delete data : findByIdAndDelete()
+
+
+                JSON Web Token (JWT)
+        -------------------------------------
+
+    1. is a compact, secure, and URL-safe way to represent claims between a client and a server.
+    2. JWTs are widely used for authentication and authorization in modern web applications, especially in REST APIs.
+    3. Why JWT?
+        - JWT allows the server to verify a user's identity without storing their session on the server.
+        - This makes it perfect for: Stateless authentication, Microservices, Single Page Applications (React, Angular, Vue), mobile Applications
+    4. Structure of a JWT : A JWT consists of three parts, separated by dots
+            Header.Payload.Signature
+        - Header : Specifies signing algorithm (HS256, RS512)
+        - Payload : Contains user data (userId, role, email)
+        - Signature : Ensures token is not tampered
+    5. How JWT Works (Flow)
+        - User logs in with email/password.
+        - Server validates credentials.
+        - Server generates JWT and sends it to the client.
+        - Client stores the token (usually in localStorage or cookies).
+        - Client sends token in headers for protected routes: "Authorization": `Bearer <token>`
+        - Server verifies token and grants/denies access.
+    6. Install JWT package: npm install jsonwebtoken
+    7. Create token using JWT : use sign(payload,secret-key)
+
+
+
+
+
+
+            
 
 
 

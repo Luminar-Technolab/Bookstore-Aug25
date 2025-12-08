@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { FaEye, FaEyeSlash, FaUser } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer,toast } from 'react-toastify'
+import { loginAPI, registerAPI } from '../services/allAPI'
 
 function Auth({registerURL}) {
 
+  const navigate = useNavigate()
   const [invalidUsername,setInvalidUsername] = useState(false)
   const [invalidEmail,setInvalidEmail] = useState(false)
   const [invalidPassword,setInvalidPassword] = useState(false)
@@ -41,16 +43,67 @@ function Auth({registerURL}) {
     }
   }
 
-  const handleRegister =(e)=>{
+  const handleRegister = async (e)=>{
     e.preventDefault()
     const {username , email, password} = userDetails
     if(username && email && password){
       // alert("api call")
+      try{
+        const result = await registerAPI(userDetails)
+        console.log(result);        
+        //result in 200, 409,500
+        if(result.status==200){
+          toast.success("Register successfully... Please Login!!!")
+          setUserDetails({username:"",email:"",password:""})
+          navigate('/login')
+        }else if(result.status==409){
+            toast.warning(result.response.data)
+            setUserDetails({username:"",email:"",password:""})
+            navigate('/login')
+        }else{
+          toast.error("Something went wrong!!!")
+          setUserDetails({username:"",email:"",password:""})
+        }
+      }catch(err){
+        console.log(err);        
+      }
     }
     else{
-      toast.warning("Please fill the form complately")
+      toast.warning("Please fill the form completely")
     }
   }
+
+  const handleLogin = async (e)=>{
+    e.preventDefault()
+    const { email, password} = userDetails
+    if(email && password){
+      // alert("api call")
+      const result = await loginAPI(userDetails)
+      if(result.status==200){
+        toast.success("Login Successful...")
+        sessionStorage.setItem("token",result.data.token)
+        sessionStorage.setItem("user",JSON.stringify(result.data.user))
+        setUserDetails({username:"",email:"",password:""})
+        setTimeout(() => {
+          if(result.data.user.role=="admin"){
+            navigate('/admin/home')
+          }else{
+            navigate('/')
+          }
+        }, 2500);
+      }else if(result.status==401 || result.status==404){
+        toast.warning(result.response.data)
+         setUserDetails({username:"",email:"",password:""})
+      }else{
+        toast.error("Something went wrong!!!")
+        console.log(result);        
+      }
+    }
+    else{
+      toast.warning("Please fill the form completely")
+    }
+  }
+
   return (
     <div className='w-full min-h-screen flex justify-center items-center bg-[url(/landing.jpg)] bg-cover bg-center text-white'>
       <div className="p-10">
@@ -68,16 +121,16 @@ function Auth({registerURL}) {
               {
                 registerURL &&
                 <>
-                <input onChange={e=>validateInput(e.target)} name='username' type="text" placeholder='Username' className="bg-white p-2 w-full rounded my-5 text-black" />
+                <input value={userDetails.username} onChange={e=>validateInput(e.target)} name='username' type="text" placeholder='Username' className="bg-white p-2 w-full rounded my-5 text-black" />
                 {invalidUsername && <div className="text-yellow-500 mb-5">*Invalid Username</div>}
                 </>
               }
               {/* email */}
-              <input onChange={e=>validateInput(e.target)} name='email' type="text" placeholder='E Mail' className="bg-white p-2 w-full rounded mb-5 text-black" />
+              <input value={userDetails.email} onChange={e=>validateInput(e.target)} name='email' type="text" placeholder='E Mail' className="bg-white p-2 w-full rounded mb-5 text-black" />
                {invalidEmail && <div className="text-yellow-500 mb-5">*Invalid Email</div>}
               {/* password */}
               <div className="flex items-center">
-                  <input onChange={e=>validateInput(e.target)} name='password' type={viewPassword?"text":"password"} placeholder='Password' className="bg-white p-2 w-full rounded mb-5 text-black" />
+                  <input value={userDetails.password} onChange={e=>validateInput(e.target)} name='password' type={viewPassword?"text":"password"} placeholder='Password' className="bg-white p-2 w-full rounded mb-5 text-black" />
                   {
                     viewPassword ?
                     <FaEyeSlash onClick={()=>setViewPassword(!viewPassword)} className='text-gray-600 ' style={{marginLeft:'-30px',marginTop:'-20px'}}/>
@@ -86,21 +139,18 @@ function Auth({registerURL}) {
                   }
               </div>
                {invalidPassword && <div className="text-yellow-500 mb-5">*Invalid Password</div>}
-              {/* forgot password */}
-              {
-                !registerURL &&
+              {/* forgot password */}               
                 <div className="flex justify-between mb-5">
                 <p className='text-xs text-orange-300'>*Never share your password with others</p>
-                <button className="text-xs underline">Forgot Password</button>
+                {!registerURL && <button className="text-xs underline">Forgot Password</button>}
                 </div>
-              }
               {/* btn regietr / login */}
               <div className="text-center">
                 {
                   registerURL ?
                     <button onClick={handleRegister} disabled={invalidUsername || invalidEmail || invalidPassword} className="bg-green-700 p-2 w-full rounded">Register</button>
                   :
-                  <button disabled={invalidUsername || invalidEmail || invalidPassword} className="bg-green-700 p-2 w-full rounded">Login</button>
+                  <button onClick={handleLogin} disabled={invalidUsername || invalidEmail || invalidPassword} className="bg-green-700 p-2 w-full rounded">Login</button>
                 }
               </div>
               {/* google authentication */}
