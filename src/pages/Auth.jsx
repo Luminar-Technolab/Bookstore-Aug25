@@ -3,6 +3,8 @@ import { FaEye, FaEyeSlash, FaUser } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer,toast } from 'react-toastify'
 import { loginAPI, registerAPI } from '../services/allAPI'
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
 
 function Auth({registerURL}) {
 
@@ -104,6 +106,21 @@ function Auth({registerURL}) {
     }
   }
 
+  const handleGoogleLogin = async (credentialResponse)=>{
+    console.log("Inside handleGoogleLogin ");
+    // console.log(credentialResponse);
+    const decode = jwtDecode(credentialResponse.credential)
+    console.log(decode);
+    
+    // const { email, password} = userDetails
+    // if(email && password){
+      
+    // }
+    // else{
+    //   toast.warning("Please fill the form completely")
+    // }
+  }
+
   return (
     <div className='w-full min-h-screen flex justify-center items-center bg-[url(/landing.jpg)] bg-cover bg-center text-white'>
       <div className="p-10">
@@ -130,7 +147,7 @@ function Auth({registerURL}) {
                {invalidEmail && <div className="text-yellow-500 mb-5">*Invalid Email</div>}
               {/* password */}
               <div className="flex items-center">
-                  <input value={userDetails.password} onChange={e=>validateInput(e.target)} name='password' type={viewPassword?"text":"password"} placeholder='Password' className="bg-white p-2 w-full rounded mb-5 text-black" />
+                  <input value={userDetails.password} onChange={e=>validateInput(e.target)} name='password' type={viewPassword?"text":"password"} placeholder='Password' className="bg-white p-2 w-full rounded mb-2 text-black" />
                   {
                     viewPassword ?
                     <FaEyeSlash onClick={()=>setViewPassword(!viewPassword)} className='text-gray-600 ' style={{marginLeft:'-30px',marginTop:'-20px'}}/>
@@ -154,6 +171,22 @@ function Auth({registerURL}) {
                 }
               </div>
               {/* google authentication */}
+              {
+                !registerURL &&
+                <div className="my-5 text-center">
+                  <p>-----------------or-----------------</p>
+                  <div className="mt-2 flex justify-center items-center w-full">
+                    <GoogleLogin
+                      onSuccess={credentialResponse => {
+                        handleGoogleLogin(credentialResponse)
+                      }}
+                      onError={() => {
+                        console.log('Login Failed');
+                      }}
+                    />
+                  </div>
+                </div>
+              }
               <div className="my-5 text-center">
                 {
                   registerURL ?
