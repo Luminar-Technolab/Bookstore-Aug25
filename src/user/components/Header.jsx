@@ -44,7 +44,7 @@ function Header() {
               :
               <div>
                 <button onClick={()=>setDropDown(!dropDown)} className='shadow-sm rounded ms-5 p-2 hover:bg-gray-100'>
-                  <img width={'40px'} height={'40px'} style={{borderRadius:'50%'}} src="https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small_2x/user-icon-on-transparent-background-free-png.png" alt="profile" />
+                  <img width={'40px'} height={'40px'} style={{borderRadius:'50%'}} src={dp?dp:"https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small_2x/user-icon-on-transparent-background-free-png.png"} alt="profile" />
                 </button>
                 {/* dropdown menu */}
                   {
@@ -71,7 +71,7 @@ function Header() {
               :
               <div>
                 <button onClick={()=>setDropDown(!dropDown)} className='shadow-sm rounded ms-5 p-2 hover:bg-gray-100'>
-                  <img width={'40px'} height={'40px'} style={{borderRadius:'50%'}} src="https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small_2x/user-icon-on-transparent-background-free-png.png" alt="profile" />
+                  <img width={'40px'} height={'40px'} style={{borderRadius:'50%'}} src={dp?dp:"https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small_2x/user-icon-on-transparent-background-free-png.png"} alt="profile" />
                 </button>
                 {/* dropdown menu */}
                   {

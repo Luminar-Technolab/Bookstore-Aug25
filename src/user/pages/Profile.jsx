@@ -6,21 +6,32 @@ import Edit from '../components/Edit'
 import Purchase from '../components/Purchase'
 import SellBook from '../components/SellBook'
 import BookStatus from '../components/BookStatus'
+import { useEffect } from 'react'
 
 function Profile() {
 
   const [tabNo,setTabNo]= useState(1)
+  const [username,setUsername]= useState("")
+  const [dp,setDp] = useState("")
+
+  useEffect(()=>{
+    if(sessionStorage.getItem("token") && sessionStorage.getItem("user")){
+      const user = JSON.parse(sessionStorage.getItem("user"))
+      setUsername(user?.username)
+      setDp(user?.picture)
+    }
+  },[])
 
   return (
     <>
     <Header/>
     <div style={{height:'200px'}} className='bg-black'></div>
     <div style={{width:'230px',height:'230px',borderRadius:'50%',marginLeft:'70px',marginTop:'-130px'}} className='bg-white p-3'>
-      <img width={'200px'} height={'200px'} style={{borderRadius:'50%'}} src="https://img.freepik.com/premium-photo/happy-man-ai-generated-portrait-user-profile_1119669-1.jpg" alt="profile" />
+      <img width={'200px'} height={'200px'} style={{borderRadius:'50%'}} src={dp?dp:"https://img.freepik.com/premium-photo/happy-man-ai-generated-portrait-user-profile_1119669-1.jpg"} alt="profile" />
     </div>
     <div className="md:flex justify-between px-20 mt-5">
         <div className="flex items-center">
-          <h1 className="font-bold md:text-3xl text-2xl">Username</h1>
+          <h1 className="font-bold md:text-3xl text-2xl">{username}</h1>
           <FaCircleCheck className='text-blue-400 ms-3'/>
         </div>
         <Edit/>
