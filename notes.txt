@@ -818,6 +818,18 @@
             - export router object
         - import router inside index.js
         - use router in server app : syntax - server-app.use(router)
+        - Create model
+        - Create middleware folder, 
+        - To handle uploaded file - using multer
+            - npm install multer
+            - create a 'uploads' folder in server , to store uploaded files from client 
+            - create a js file for defining storage & file filtering for multer
+                - import multer
+                - define storage for uploed file in server using multer
+                - define file filter before adding to storage
+                - using storage file filter create our multer middleware
+                - export multer middleware
+
     4. Express.js MVC architecture step by step.
         - What is MVC?
             | Layer          | Role                                              |
@@ -889,17 +901,46 @@
     5. How JWT Works (Flow)
         - User logs in with email/password.
         - Server validates credentials.
-        - Server generates JWT and sends it to the client.
+        - Server generates JWT token and sends it to the client.
         - Client stores the token (usually in localStorage or cookies).
         - Client sends token in headers for protected routes: "Authorization": `Bearer <token>`
         - Server verifies token and grants/denies access.
     6. Install JWT package: npm install jsonwebtoken
     7. Create token using JWT : use sign(payload,secret-key)
+    8. Verify token using jwt : use verify(token,secret-key)
+
+            MIDDLEWARES
+        --------------------
+    1. Middlewares (or middleware functions) are functions that run between the request and the response in a server application—commonly used in Express.js.
+    2. What is Middleware? A middleware is a function that has access to:
+        - req → Request object
+        - res → Response object
+        - next → Function to move to the next middleware
+        It can:
+            -   Modify req or res
+            -   Run some logic (logging, validation, authentication)
+            -   Stop the request OR pass it forward using next()
+    3. Types of Middleware
+        - Application-level middleware : Runs for every request, server-app.use(...)
+        - Router-level middleware : Attached to routes or route groups
+        - Built-in Middleware : express.json()
+        - Third-party Middleware : cors()
+    4. Why Middleware is Important? Logging, Authentication, Error handling, Data parsing, Request validation,Access control,Performance monitoring
 
 
-
-
-
+            MULTER
+        ---------------
+    1. Multer is a middleware for handling file uploads in Express.js, especially when data is sent as multipart/form-data.
+    2. What is Multer : 
+        - Middleware for Express
+        - Handles file uploads
+        - Parses multipart/form-data
+        - Stores files on disk or memory
+    3. Multer gives you access to:
+        - req.file (single file)
+        - req.files (multiple files)
+        - req.body (text fields)
+    4. Install multer: npm install multer
 
             
 

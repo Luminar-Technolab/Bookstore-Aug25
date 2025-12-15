@@ -11,7 +11,8 @@ function SellBook() {
   const [preview,setPreview] = useState("")
   const [previewList,setPreviewList] = useState([])
 
-  console.log(bookDetails);
+  // console.log(bookDetails);
+
 
   const handleBookImageUpload = (e)=>{
     // console.log(e.target.files[0]);
@@ -24,6 +25,14 @@ function SellBook() {
     const demoPreviewList = previewList
     demoPreviewList.push(url)
     setPreviewList(demoPreviewList)
+  }
+
+  const handleResetForm = ()=>{
+    setBookDetails({
+          title:"",author:"",pages:"",imageURL:"",price:"",discountPrice:"",abstract:"",publisher:"",language:"",isbn:"",category:"",uploadImg:[]
+    })
+    setPreview("")
+    setPreviewList([])
   }
   
   return (
@@ -92,7 +101,7 @@ function SellBook() {
           </div>
         </div>
         <div className="p-3 w-full flex md:justify-end justify-center mt-8 ">
-          <button className="py-2 px-3 rounded bg-gray-600 text-white hover:bg-white hover:text-gray-600">RESET</button>
+          <button onClick={handleResetForm} className="py-2 px-3 rounded bg-gray-600 text-white hover:bg-white hover:text-gray-600">RESET</button>
           <button className="py-2 px-3 rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600 ms-5">ADD BOOK</button>
         </div>
     </div>
