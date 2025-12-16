@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
 import { FaPlus } from "react-icons/fa";
+import { ToastContainer,toast } from 'react-toastify'
+import { addBookAPI } from '../../services/allAPI';
 
 
 function SellBook() {
@@ -11,7 +13,6 @@ function SellBook() {
   const [preview,setPreview] = useState("")
   const [previewList,setPreviewList] = useState([])
 
-  // console.log(bookDetails);
 
 
   const handleBookImageUpload = (e)=>{
@@ -33,6 +34,43 @@ function SellBook() {
     })
     setPreview("")
     setPreviewList([])
+  }
+        console.log(bookDetails);
+
+  const handleUploadBookForm = async ()=>{
+    //check all fields have values
+    const {title,author,pages,imageURL,price,discountPrice,abstract,publisher,language,isbn,category,uploadImg} = bookDetails
+    if(!title || !author || !pages || !imageURL || !price || !discountPrice || !abstract || !publisher || !language || !isbn || !category || uploadImg.length==0){
+      toast.info("Please fill the form completely!!!")
+    }else{
+      const token = sessionStorage.getItem("token")
+      if(token){
+        const reqHeader = {
+          "Authorization":`Bearer ${token}`
+        }
+        const reqBody = new FormData()
+        for(let key in bookDetails){
+          if(key != "uploadImg"){
+            reqBody.append(key,bookDetails[key])
+          }else{
+            bookDetails.uploadImg.forEach(item=>{
+              reqBody.append("uploadImg",item)
+            })
+          }
+        }
+        const result = await addBookAPI(reqBody,reqHeader)
+          console.log(result);
+          if(result.status==200){
+            toast.success("Book Added successfully!!!")
+          }else if(result.status==409){
+            toast.warning(result.response.data)
+          }else{
+            toast.error("Something went wrong")
+          }
+          handleResetForm()
+      }
+     
+    }
   }
   
   return (
@@ -102,8 +140,10 @@ function SellBook() {
         </div>
         <div className="p-3 w-full flex md:justify-end justify-center mt-8 ">
           <button onClick={handleResetForm} className="py-2 px-3 rounded bg-gray-600 text-white hover:bg-white hover:text-gray-600">RESET</button>
-          <button className="py-2 px-3 rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600 ms-5">ADD BOOK</button>
+          <button onClick={handleUploadBookForm} className="py-2 px-3 rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600 ms-5">ADD BOOK</button>
         </div>
+        <ToastContainer position='top-center' autoClose={3000} theme='colored'/>
+        
     </div>
   )
 }
