@@ -4,11 +4,30 @@ import Footer from '../../components/Footer'
 import {  FaSearch } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer,toast } from 'react-toastify'
+import { getHomePageBooksAPI } from '../../services/allAPI'
+import { useEffect } from 'react'
 
 function Home() {
 
   const navigate = useNavigate()
   const [searchKey,setSearchKey] = useState("")
+  const [homeBooks,setHomeBooks] = useState([])
+
+  console.log(homeBooks);
+
+  useEffect(()=>{
+    getHomeBooks()
+  },[])
+  
+
+  const getHomeBooks = async ()=>{
+    const result = await getHomePageBooksAPI()
+    if(result.status==200){
+      setHomeBooks(result.data)
+    }else{
+      console.log(result);      
+    }
+  }
 
   const handleSearch = ()=>{
     if(!searchKey){
@@ -45,41 +64,22 @@ function Home() {
       <h1 className="text-4xl my-2">Explore Our Latest Collection</h1>
       <div className="md:grid grid-cols-4 w-full my-10">
           {/* duplicate book card */}
-          <div className="shadow rounded p-3 m-4  md:my-0">
-            <img width={'100%'} height={'300px'} src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1654371463i/18144590.jpg" alt="book" />
-            <div className="flex flex-col justify-center items-center mt-4">
-              <h3 className="text-blue-700 font-bold text-xl">Author</h3>
-              <p className='text-lg'>title</p>
-              <p>$ 12 </p>
-            </div>
-          </div>
-          {/* duplicate book card */}
-          <div className="shadow rounded p-3 m-4  md:my-0">
-            <img width={'100%'} height={'300px'} src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1654371463i/18144590.jpg" alt="book" />
-            <div className="flex flex-col justify-center items-center mt-4">
-              <h3 className="text-blue-700 font-bold text-xl">Author</h3>
-              <p>title</p>
-              <p>$ 12 </p>
-            </div>
-          </div>
-          {/* duplicate book card */}
-          <div className="shadow rounded p-3 m-4  md:my-0">
-            <img width={'100%'} height={'300px'} src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1654371463i/18144590.jpg" alt="book" />
-            <div className="flex flex-col justify-center items-center mt-4">
-              <h3 className="text-blue-700 font-bold text-xl">Author</h3>
-              <p>title</p>
-              <p>$ 12 </p>
-            </div>
-          </div>
-          {/* duplicate book card */}
-          <div className="shadow rounded p-3 m-4  md:my-0">
-            <img width={'100%'} height={'300px'} src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1654371463i/18144590.jpg" alt="book" />
-            <div className="flex flex-col justify-center items-center mt-4">
-              <h3 className="text-blue-700 font-bold text-xl">Author</h3>
-              <p>title</p>
-              <p>$ 12 </p>
-            </div>
-          </div>
+          {
+            homeBooks?.length>0?
+              homeBooks?.map(book=>(
+                <div key={book?._id} className="shadow rounded p-3 m-4  md:my-0">
+                  <img width={'100%'} height={'300px'} src={book?.imageURL} alt="book" />
+                  <div className="flex flex-col justify-center items-center mt-4">
+                    <h3 className="text-blue-700 font-bold text-xl">{book?.author}</h3>
+                    <p className='text-lg'>{book?.title}</p>
+                    <p className='font-bold text-red-800'>$ {book?.discountPrice} </p>
+                  </div>
+                </div>
+              ))
+            :
+            <p className="font-bold">Loading...</p>
+          }
+          
       </div>
       <div className="text-center my-10">
         <Link to={'/books'} className='bg-black p-3 text-white font-black'>Explore More...</Link>

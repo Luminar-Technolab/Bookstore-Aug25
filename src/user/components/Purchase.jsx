@@ -1,6 +1,9 @@
 import React from 'react'
 
 function Purchase() {
+
+  
+
   return (
      <div className='p-10 my-20 shadow rounded'>
       {/* duplicate book with status updation */}
