@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { FaAddressCard, FaBars, FaInstagram, FaPowerOff, FaUser   } from "react-icons/fa";
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Header() {
 
+  const navigate = useNavigate()
   const [toggle,setToggle] = useState(false)
   const [token,setToken] = useState("")
   const [dp,setDp] = useState("")
@@ -19,6 +20,14 @@ function Header() {
       setDp(user.picture)
     }
   },[token])
+
+  const logout = ()=>{
+    sessionStorage.clear()
+    setToken("")
+    setDp("")
+    setDropDown(false)
+    navigate('/')
+  }
 
   return (
     <>
@@ -53,7 +62,7 @@ function Header() {
                     {/* profile link */}
                     <Link to={'/user/profile'} className='flex  items-center text-gray-700 text-sm px-3 py-2'><FaAddressCard className='me-2'/> Profile</Link>
                     {/* logout btn */}
-                    <button className='flex  items-center text-gray-700 text-sm px-3 py-2'><FaPowerOff className='me-2'/> Logout</button>
+                    <button onClick={logout} className='flex  items-center text-gray-700 text-sm px-3 py-2'><FaPowerOff className='me-2'/> Logout</button>
                   </div>
                   }
               </div>
@@ -80,7 +89,7 @@ function Header() {
                     {/* profile link */}
                     <Link to={'/user/profile'} className='flex  items-center text-gray-700 text-sm px-3 py-2'><FaAddressCard className='me-2'/> Profile</Link>
                     {/* logout btn */}
-                    <button className='flex  items-center text-gray-700 text-sm px-3 py-2'><FaPowerOff className='me-2'/> Logout</button>
+                    <button onClick={logout} className='flex  items-center text-gray-700 text-sm px-3 py-2'><FaPowerOff className='me-2'/> Logout</button>
                   </div>
                   }
               </div>

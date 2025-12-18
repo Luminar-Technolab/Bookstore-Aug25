@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { FaBars } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { getAllBooksPageAPI } from '../../services/allAPI'
+import { searchContext } from '../../contextAPI/ShareContext'
 
 function Books() {
+
+  const {searchKey,setSearchKey} = useContext(searchContext)
   const [toggle,setToggle] = useState(false)
   const [token,setToken] = useState("")
   const [allBooks,setAllBooks] = useState([])
-  console.log(allBooks);
+  const [categories,setCategories] = useState([])
+  const [tempAllBooks,setTempAllBooks] = useState([])
+
+  console.log(categories);
   
   useEffect(()=>{
     if(sessionStorage.getItem("token")){
@@ -17,19 +23,34 @@ function Books() {
       setToken(userToken)
       getAllBooks(userToken)
     }
-  },[])
+  },[searchKey])
 
   const getAllBooks = async (token)=>{
     const reqHeader = {
       "Authorization":`Beaerer ${token}`
     }
-    const result = await getAllBooksPageAPI(reqHeader)
+    const result = await getAllBooksPageAPI(reqHeader,searchKey)
     if(result.status==200){
       setAllBooks(result.data)
+      setTempAllBooks(result.data)
+      //call fn to get categories
+      const tempCategory = result.data?.map(item=>item.category)
+      setCategories([...new Set(tempCategory)]);
+      
     }else{
       console.log(result);
     }
   }
+
+  const filterBook = (category)=>{
+    if(category!="No Filter"){
+      setAllBooks(tempAllBooks?.filter(item=>item.category==category))
+    }else{
+      setAllBooks(tempAllBooks)
+    }
+  }
+
+
   return (
     <>
     <Header/>
@@ -39,7 +60,7 @@ function Books() {
       <div className='flex flex-col justify-center items-center my-5'>
         <h1 className="text-3xl font-bold my-5">All Books</h1>
         <div className="flex my-5">
-          <input placeholder='Seach By Book Title' type="text" className="p-2 border border-gray-200 text-black w-100 placeholder-gray-600" />
+          <input value={searchKey} onChange={e=>setSearchKey(e.target.value)} placeholder='Seach By Book Title' type="text" className="p-2 border border-gray-200 text-black w-100 placeholder-gray-600" />
           <button className="p-2 bg-blue-900 text-white ">Search</button>
         </div>
       </div>
@@ -54,12 +75,16 @@ function Books() {
          {/* list of filter */}
          <div className={toggle?"block":"md:block hidden"}>
             {/* duplicate filter item */}
+            {
+              categories?.map((item,index)=>(
+                <div key={index} className="mt-3">
+                  <input onClick={()=>filterBook(item)} type="radio" name="filter" id={item} />
+                  <label className='ms-3' htmlFor={item}>{item}</label>
+                </div>
+              ))
+            }
             <div className="mt-3">
-              <input type="radio" name="filter" id="key1" />
-              <label className='ms-3' htmlFor="key1">category-name</label>
-            </div>
-            <div className="mt-3">
-              <input type="radio" name="filter" id="nofilter" />
+              <input onClick={()=>filterBook("No Filter")} type="radio" name="filter" id="nofilter" />
               <label className='ms-3' htmlFor="nofilter">No Filter</label>
             </div>
          </div>
@@ -82,7 +107,7 @@ function Books() {
               </div>
                 ))
               :
-              <div className='text-center my-5 font-bold'>Loading...</div>
+              <div className='text-center my-5 font-bold'>Book Not Found...</div>
              }
               
             </div>

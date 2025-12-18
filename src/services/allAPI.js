@@ -29,8 +29,8 @@ export const getHomePageBooksAPI = async ()=>{
 }
 
 //all-books : get request by books componnet when page loaded
-export const getAllBooksPageAPI = async (reqHeader)=>{
-    return await commonAPI("GET",`${serverURL}/all-books`,{},reqHeader)
+export const getAllBooksPageAPI = async (reqHeader,searchKey)=>{
+    return await commonAPI("GET",`${serverURL}/all-books?search=${searchKey}`,{},reqHeader)
 }
 
 //user-books : get request by bookstatus when it loads

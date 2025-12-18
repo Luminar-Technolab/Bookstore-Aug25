@@ -546,6 +546,20 @@
                 - configureStore() : used to generate redux store, it has to add valid reducer which hold updated state
                 - createSlice() : to combine both action & reducer, it has name, initial state (is the reducer state), reducers is an object which consist of  collection of action  function, action will update state using reducer function. slice return actions and reducer
                - createAsyncThunk() : A function that accepts a Redux action type string and a callback function that should return a promise.
+    18. Data sharing between components in react App
+        - State Lifting : used share data between any components using props
+        - Context API : used to share data between any components without using props
+        - REDUX : used to share data between any components without using props
+    19. Context API 
+        - Context API is React’s built-in way to share data globally across components without passing props manually at every level
+        - Basic Flow (3 Steps)
+            - Create Context : using 'createContext()' method, using context we can share/pass data
+            - Provide Context : using 'Provider' component from createContext method, its 'value' attribute used to share the data
+            - Consume / Access Context : use 'useContext' hook
+        - Context vs Redux (Quick Take)
+            - Context API → small to medium apps, simple global state
+            - Redux / Zustand → large apps, complex state, heavy updates
+    20. children props : used to access all child component of a component
     
 
 
