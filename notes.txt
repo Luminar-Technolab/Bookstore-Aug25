@@ -843,6 +843,8 @@
                 - define file filter before adding to storage
                 - using storage file filter create our multer middleware
                 - export multer middleware
+        - To enable static files : use express.static(file-path) in server
+            - syntax : app-name.use(path,express.static(file-path))
 
     4. Express.js MVC architecture step by step.
         - What is MVC?
