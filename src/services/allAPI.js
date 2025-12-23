@@ -45,3 +45,17 @@ export const getAllUserBoughtBooksAPI = async (reqHeader)=>{
 export const editUserAPI = async (id,reqBody,reqHeader)=>{
     return await commonAPI("PUT",`${serverURL}/user/${id}/edit`,reqBody,reqHeader)
 }
+
+//books/:id/view : GET rqst by view component when page loads
+export const viewBookAPI = async (id,reqHeader)=>{
+    return await commonAPI("GET",`${serverURL}/books/${id}/view`,{},reqHeader)
+}
+//books/all :GET reqst by Admin collection when it lads
+export const getAllAdminBooksAPI = async (reqHeader)=>{
+    return await commonAPI("GET",`${serverURL}/books/all`,{},reqHeader)
+}
+
+//users/all :GET reqst by Admin collection when it lads
+export const getAllUsersAPI = async (reqHeader)=>{
+    return await commonAPI("GET",`${serverURL}/users/all`,{},reqHeader)
+}
