@@ -59,3 +59,8 @@ export const getAllAdminBooksAPI = async (reqHeader)=>{
 export const getAllUsersAPI = async (reqHeader)=>{
     return await commonAPI("GET",`${serverURL}/users/all`,{},reqHeader)
 }
+
+///books/:id/update : PUT rqst by admin collection when approve btn clicked
+export const updateBookStatusAPI = async (id,reqHeader)=>{
+    return await commonAPI("PUT",`${serverURL}/books/${id}/update`,{},reqHeader)
+}
