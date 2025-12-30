@@ -64,3 +64,8 @@ export const getAllUsersAPI = async (reqHeader)=>{
 export const updateBookStatusAPI = async (id,reqHeader)=>{
     return await commonAPI("PUT",`${serverURL}/books/${id}/update`,{},reqHeader)
 }
+
+///books/:id DELETE requst by BookStatus when delete btn clicked
+export const removeBookAPI = async (id,reqHeader)=>{
+    return await commonAPI("DELETE",`${serverURL}/books/${id}`,{},reqHeader)
+}

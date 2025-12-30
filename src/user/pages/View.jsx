@@ -6,6 +6,7 @@ import { Link, useParams } from 'react-router-dom'
 import { viewBookAPI } from '../../services/allAPI'
 import { useEffect } from 'react'
 import serverURL from '../../services/serverURL'
+import {loadStripe} from '@stripe/stripe-js';
 
 function View() {
 
@@ -38,6 +39,12 @@ function View() {
 
   }
 
+  const makePayment = async ()=>{
+    const stripe = await loadStripe('pk_test_51SPbdmGzbBWBRDCHa7oArjjXwbcJp75ptKgXis3ndpSwmfXYDOq1zRTQNY2uVG6R9WDc9kY910k8gYIyTV4uarOa00s9Vg0Csv');
+    console.log(stripe);
+    
+  }
+
   return (
     <>
     <Header/>
@@ -67,7 +74,7 @@ function View() {
             </div>
             <div className="flex justify-end">
               <Link to={'/books'} className='bg-blue-900 text-white p-2 rounded flex items-center'><FaBackward className='me-2'/> Back</Link>
-              <button className='bg-green-900 text-white p-2 rounded ms-5'>Buy $ {book?.discountPrice}</button>
+              <button onClick={makePayment} className='bg-green-900 text-white p-2 rounded ms-5'>Buy $ {book?.discountPrice}</button>
             </div>
           </div>
         </div>
