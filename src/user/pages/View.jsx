@@ -3,7 +3,7 @@ import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { FaBackward, FaCamera, FaEye } from 'react-icons/fa'
 import { Link, useParams } from 'react-router-dom'
-import { viewBookAPI } from '../../services/allAPI'
+import { bookPaymentAPI, viewBookAPI } from '../../services/allAPI'
 import { useEffect } from 'react'
 import serverURL from '../../services/serverURL'
 import {loadStripe} from '@stripe/stripe-js';
@@ -42,6 +42,17 @@ function View() {
   const makePayment = async ()=>{
     const stripe = await loadStripe('pk_test_51SPbdmGzbBWBRDCHa7oArjjXwbcJp75ptKgXis3ndpSwmfXYDOq1zRTQNY2uVG6R9WDc9kY910k8gYIyTV4uarOa00s9Vg0Csv');
     console.log(stripe);
+    // api call
+    const token = sessionStorage.getItem('token')
+    if(token){
+      const reqHeader = {
+        "Authorization":`Bearer ${token}`
+      }
+    const result = await bookPaymentAPI(id,reqHeader)
+    console.log(result.data);
+      const {checkOutURL} = result.data
+      window.location.href = checkOutURL
+    }
     
   }
 
