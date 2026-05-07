@@ -166,3 +166,104 @@ export default App
         - Click Get API Key
         - Create Key : AIzaSyCTMoTrWcEUnYOuy_YjayYKiKIo6dT15tE
         - 
+
+# Using EmailJS in React
+
+React App
+   ↓
+EmailJS Service
+   ↓
+Gmail / Outlook / SMTP
+   ↓
+Email Sent
+
+# Step-by-Step Setup
+1. Create EmailJS Account : Sign up and login.
+2. Add Email Service: get Service ID : service_k4cqp04
+3. Create Email Template : template_lebhi5k
+4. Get Public Key : Account → API Keys : hARir7ZYtgSDqyF0b
+5. Install EmailJS Package : npm install @emailjs/browser
+6. React Example
+import React, { useRef } from 'react'
+import emailjs from '@emailjs/browser'
+
+const Contact = () => {
+
+  const form = useRef()
+
+  const sendEmail = (e) => {
+
+    e.preventDefault()
+
+    emailjs.sendForm(
+      'service_abcd123',
+      'template_xyz123',
+      form.current,
+      'abcdEFGH123'
+    )
+    .then((result) => {
+
+      console.log(result.text)
+      alert("Email Sent Successfully")
+
+    })
+    .catch((error) => {
+
+      console.log(error.text)
+
+    })
+
+  }
+
+  return (
+
+    <div>
+
+      <h2>Contact Form</h2>
+
+      <form ref={form} onSubmit={sendEmail}>
+
+        <input
+          type="text"
+          name="name"
+          placeholder="Your Name"
+        />
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Your Email"
+        />
+
+        <textarea
+          name="title"
+          placeholder="Message"
+        />
+
+        <button type="submit">
+          Send
+        </button>
+
+      </form>
+
+    </div>
+
+  )
+
+}
+
+export default Contact
+
+7. Add Environment Variables (Recommended)
+
+VITE_SERVICE_ID=service_abcd123
+VITE_TEMPLATE_ID=template_xyz123
+VITE_PUBLIC_KEY=abcdEFGH123
+
+8. Use in React (Vite)
+emailjs.sendForm(
+  import.meta.env.VITE_SERVICE_ID,
+  import.meta.env.VITE_TEMPLATE_ID,
+  form.current,
+  import.meta.env.VITE_PUBLIC_KEY
+)
