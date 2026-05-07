@@ -491,10 +491,10 @@
         - Function without argument : event-name={functionName}
         - Function with argument : event-name={()=>functionName(arg1,...)}
         - Function with argument as event : event-name={(event)=>functionName(event)}
-    9. Props : Is property of a component ,and is used to share data from parent to child, Props ia object, 
+    9. Props : Is property of a component ,and is used to share data from parent to child, Props is object, 
         - In Functional component, props will be in function argument , props cannot be changed
     10. Conditional Rendering : In react we can control the visibility of jsx element based on condition
-        - use js conditional Statements & ternary /truthy Operator
+        - use  ternary /truthy Operator
     11. State : Is a variable used to store values in components, Whenever 'state' changes then Component will render. It Generally an object, to update state use 'setState()' method.
     12. Hooks : are Predefined functions, for providing react state and life cycle methods to functional component
         - Rules for calling hooks in functional component
